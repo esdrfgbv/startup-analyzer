@@ -16,9 +16,13 @@ Pain Points: {json.dumps(pain_points)}
 Timing: {json.dumps(timing)}
 Red Team: {json.dumps(red_team)}
 
-Return ONLY valid JSON.
-
+Return ONLY valid JSON with this structure:
 {{
+  "verdict": "GO, CONDITIONAL GO, or NO-GO",
+  "verdict_reason": "one sentence summary of why this verdict",
+  "executive_summary": "detailed analysis of the startup's potential",
+  "market_entry_suggestion": "one paragraph of deep strategic advice for market entry",
+  "strategy": ["step 1", "step 2", "step 3"],
   "gtm": {{
     "beachhead": "specific first target market",
     "channel": "how to reach first customers",
@@ -29,7 +33,5 @@ Return ONLY valid JSON.
   }},
   "all_sources": ["a unique, unified list of all URLs and sources from the raw data provided"]
 }}
-
-verdict must be exactly: GO, CONDITIONAL GO, or NO-GO
 """
     return safe_json_parse(ask_llm(prompt, agent_type="analysis"))

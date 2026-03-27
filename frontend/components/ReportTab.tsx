@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 interface ReportTabProps { result: Record<string, unknown>; }
 
 function ConfidenceBadge({ score }: { score?: number }) {
@@ -11,7 +13,7 @@ function ConfidenceBadge({ score }: { score?: number }) {
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: ReactNode; children: ReactNode }) {
   return (
     <div className="mb-6 rounded-xl p-5" style={{ background: "#0f1219", border: "1px solid #1e2535" }}>
       <h3 className="font-bold mb-4" style={{ color: "#e2e8f0" }}>{title}</h3>
@@ -42,11 +44,11 @@ export default function ReportTab({ result }: ReportTabProps) {
     <div className="rounded-xl p-5 text-center mb-6" style={{ background: "#0f1421", border: `1px solid ${verdictColor}44` }}>
       <div className="text-3xl font-black mb-1" style={{ color: verdictColor }}>{String(r.verdict ?? "")}</div>
       <p className="text-sm" style={{ color: "#94a3b8" }}>{r.verdict_reason as string}</p>
-      {r.executive_summary && <p className="text-sm mt-2" style={{ color: "#64748b" }}>{r.executive_summary as string}</p>}
+      {!!r.executive_summary && <p className="text-sm mt-2" style={{ color: "#64748b" }}>{r.executive_summary as string}</p>}
     </div>
 
       {/* Market Overview */}
-      <Section title={<>📊 Market Overview <ConfidenceBadge score={v.market_confidence} /></> as unknown as string}>
+      <Section title={<>📊 Market Overview <ConfidenceBadge score={v.market_confidence} /></>}>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {[["TAM", m.tam], ["SAM", m.sam], ["SOM", m.som], ["CAGR", m.cagr]].map(([k, v]) => (
             <div key={k as string} className="p-3 rounded-lg" style={{ background: "#161b27" }}>
@@ -59,7 +61,7 @@ export default function ReportTab({ result }: ReportTabProps) {
       </Section>
 
       {/* Competitors */}
-      <Section title={<>🔭 Competitor Landscape <ConfidenceBadge score={v.competitor_confidence} /></> as unknown as string}>
+      <Section title={<>🔭 Competitor Landscape <ConfidenceBadge score={v.competitor_confidence} /></>}>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
@@ -82,7 +84,7 @@ export default function ReportTab({ result }: ReportTabProps) {
       </Section>
 
       {/* Pain Points */}
-      <Section title={(<>😤 Customer Pain Points <ConfidenceBadge score={v.pain_point_confidence} /></>) as unknown as string}>
+      <Section title={<>😤 Customer Pain Points <ConfidenceBadge score={v.pain_point_confidence} /></>}>
         <div className="flex flex-col gap-2">
           {pains.map((p, i) => (
             <div key={i} className="flex gap-3 items-start p-3 rounded-lg" style={{ background: "#161b27" }}>
@@ -100,7 +102,7 @@ export default function ReportTab({ result }: ReportTabProps) {
       </Section>
 
       {/* Timing */}
-      <Section title={<>⏱️ Market Timing <ConfidenceBadge score={v.timing_confidence} /></> as unknown as string}>
+      <Section title={<>⏱️ Market Timing <ConfidenceBadge score={v.timing_confidence} /></>}>
         <div className="flex gap-4 mb-3">
           <div className="text-lg font-black" style={{ color: t.timing_verdict === "Right Time" ? "#22c55e" : "#eab308" }}>
           {String(t.timing_verdict ?? "")}
@@ -119,7 +121,7 @@ export default function ReportTab({ result }: ReportTabProps) {
 
       {/* Red Team */}
       <Section title="🔴 Red Team Findings">
-        {rt.fatal_flaw && (
+        {!!rt.fatal_flaw && (
           <div className="mb-3 p-3 rounded-lg text-sm" style={{ background: "#2d0a0a", color: "#ef4444", border: "1px solid #991b1b" }}>
             ☠️ Fatal Flaw: {String(rt.fatal_flaw)}
           </div>

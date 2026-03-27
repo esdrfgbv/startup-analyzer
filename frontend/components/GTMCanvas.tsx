@@ -1,4 +1,10 @@
-interface GTMCanvasProps { report: Record<string, unknown>; }
+interface GTMCanvasProps {
+  report: {
+    gtm?: Record<string, string>;
+    market_entry_suggestion?: string;
+    [key: string]: any;
+  };
+}
 
 const BOXES = [
   { key: "beachhead",    label: "🎯 Beachhead Market",       desc: "Who you target first" },
@@ -10,8 +16,8 @@ const BOXES = [
 ];
 
 export default function GTMCanvas({ report }: GTMCanvasProps) {
-  const gtm = (report?.gtm ?? {}) as Record<string, string>;
   if (!report) return <p style={{ color: "#64748b" }}>Report not yet ready.</p>;
+  const gtm = report.gtm ?? {};
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -24,15 +30,15 @@ export default function GTMCanvas({ report }: GTMCanvasProps) {
             <div className="text-xs font-bold" style={{ color: "#6366f1" }}>{box.label}</div>
             <div className="text-xs" style={{ color: "#475569" }}>{box.desc}</div>
             <div className="text-sm mt-auto leading-relaxed" style={{ color: "#e2e8f0" }}>
-              {gtm[box.key] || (report as Record<string, string>)[box.key] || "—"}
+              {String(gtm[box.key] || report[box.key] || "—")}
             </div>
           </div>
         ))}
       </div>
-      {report.market_entry_suggestion && (
+      {!!report.market_entry_suggestion && (
         <div className="mt-6 rounded-xl p-5" style={{ background: "#0f1421", border: "1px solid #312e81" }}>
           <div className="text-xs font-bold mb-2" style={{ color: "#818cf8" }}>📋 Market Entry Recommendation</div>
-          <p className="text-sm leading-relaxed" style={{ color: "#e2e8f0" }}>{report.market_entry_suggestion as string}</p>
+          <p className="text-sm leading-relaxed" style={{ color: "#e2e8f0" }}>{report.market_entry_suggestion}</p>
         </div>
       )}
     </div>
