@@ -13,8 +13,8 @@ const TABS = ["Report", "War Room", "Market Radar", "GTM Canvas", "Shark Tank", 
 
 export default function Dashboard() {
   const params = useSearchParams();
-  const idea    = params.get("idea") || "";
-  const region  = params.get("region") || "";
+  const idea = params.get("idea") || "";
+  const region = params.get("region") || "";
   const segment = params.get("segment") || "";
 
   const [activeTab, setActiveTab] = useState(0);
@@ -26,11 +26,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!idea) return;
-    const url = `http://localhost:8000/api/stream?idea=${encodeURIComponent(idea)}&region=${encodeURIComponent(region)}&segment=${encodeURIComponent(segment)}`;
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    const url = `${baseUrl}/api/stream?idea=${encodeURIComponent(idea)}&region=${encodeURIComponent(region)}&segment=${encodeURIComponent(segment)}`;
     const es = new EventSource(url);
     esRef.current = es;
 
-    const agentOrder = ["orchestrator","market_sizer","competitor_scout","pain_point","timing","red_team","validator","synthesizer","debate"];
+    const agentOrder = ["orchestrator", "market_sizer", "competitor_scout", "pain_point", "timing", "red_team", "validator", "synthesizer", "debate"];
     let doneCount = 0;
 
     es.onmessage = (e) => {
@@ -81,12 +82,12 @@ export default function Dashboard() {
       {/* LEFT SIDEBAR — Agent Feed */}
       <aside className="w-72 flex-shrink-0 flex flex-col border-r overflow-hidden" style={{ borderColor: "#1e2535", background: "#0f1219" }}>
         <div className="p-4 border-b" style={{ borderColor: "#1e2535" }}>
-          <div className="font-bold text-sm mb-1" style={{ color: "#6366f1" }}>⚡ StratosAI War Room</div>
+          <div className="font-bold text-sm mb-1" style={{ color: "#2563eb" }}>⚡ AgentAstra War Room</div>
           <div className="text-xs mb-3" style={{ color: "#64748b" }}>{idea}</div>
           {/* Progress bar */}
           <div className="w-full rounded-full h-1.5 overflow-hidden" style={{ background: "#1e2535" }}>
             <div className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${progress}%`, background: "linear-gradient(90deg, #6366f1, #8b5cf6)" }} />
+              style={{ width: `${progress}%`, background: "linear-gradient(90deg, #2563eb, #1d4ed8)" }} />
           </div>
           <div className="text-xs mt-1" style={{ color: "#475569" }}>{progress}% complete</div>
         </div>
@@ -111,8 +112,8 @@ export default function Dashboard() {
             <button key={tab} onClick={() => setActiveTab(i)}
               className="px-5 py-3 text-sm font-medium transition-all border-b-2"
               style={{
-                borderColor: activeTab === i ? "#6366f1" : "transparent",
-                color: activeTab === i ? "#6366f1" : "#64748b",
+                borderColor: activeTab === i ? "#2563eb" : "transparent",
+                color: activeTab === i ? "#2563eb" : "#64748b",
               }}>
               {tab}
             </button>
@@ -123,15 +124,15 @@ export default function Dashboard() {
         <div className="flex-1 overflow-y-auto p-6">
           {!result && progress < 100 && (
             <div className="flex flex-col items-center justify-center h-full gap-4">
-              <div className="w-12 h-12 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "#6366f1", borderTopColor: "transparent" }} />
+              <div className="w-12 h-12 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "#2563eb", borderTopColor: "transparent" }} />
               <p style={{ color: "#64748b" }}>Agents are working… watch the feed</p>
             </div>
           )}
           {result && (
             <>
               {activeTab === 0 && <ReportTab result={result} />}
-              {activeTab === 1 && <WarRoomTab debate={result.debate as {role:string;message:string}[]} />}
-              {activeTab === 2 && <MarketRadarTab competitors={(result.competitors as {competitors: unknown[]}).competitors} />}
+              {activeTab === 1 && <WarRoomTab debate={result.debate as { role: string; message: string }[]} />}
+              {activeTab === 2 && <MarketRadarTab competitors={(result.competitors as { competitors: unknown[] }).competitors} />}
               {activeTab === 3 && <GTMCanvas report={result.report as Record<string, unknown>} />}
               {activeTab === 4 && <SharkTank idea={idea} region={region} segment={segment} />}
               {activeTab === 5 && <WhatIf idea={idea} region={region} segment={segment} />}

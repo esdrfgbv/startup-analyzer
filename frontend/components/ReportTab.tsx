@@ -35,20 +35,20 @@ export default function ReportTab({ result }: ReportTabProps) {
   const signals = (t.signals ?? []) as Record<string, string>[];
   const strategy = (r.strategy ?? []) as string[];
 
-  const verdictColor = { GO: "#22c55e", "CONDITIONAL GO": "#eab308", "NO-GO": "#ef4444" }[r.verdict as string] ?? "#6366f1";
+  const verdictColor = { GO: "#22c55e", "CONDITIONAL GO": "#eab308", "NO-GO": "#ef4444" }[r.verdict as string] ?? "#2563eb";
 
   return (
     <div className="max-w-4xl mx-auto">
 
       {/* Verdict */}
-    <div className="rounded-xl p-5 text-center mb-6" style={{ background: "#0f1421", border: `1px solid ${verdictColor}44` }}>
-      <div className="text-3xl font-black mb-1" style={{ color: verdictColor }}>{String(r.verdict ?? "")}</div>
-      <p className="text-sm" style={{ color: "#94a3b8" }}>{r.verdict_reason as string}</p>
-      {!!r.executive_summary && <p className="text-sm mt-2" style={{ color: "#64748b" }}>{r.executive_summary as string}</p>}
-    </div>
+      <div className="rounded-xl p-5 text-center mb-6" style={{ background: "#0f1421", border: `1px solid ${verdictColor}44` }}>
+        <div className="text-3xl font-black mb-1" style={{ color: verdictColor }}>{String(r.verdict ?? "")}</div>
+        <p className="text-sm" style={{ color: "#94a3b8" }}>{r.verdict_reason as string}</p>
+        {!!r.executive_summary && <p className="text-sm mt-2" style={{ color: "#64748b" }}>{r.executive_summary as string}</p>}
+      </div>
 
       {/* Market Overview */}
-      <Section title={<>📊 Market Overview <ConfidenceBadge score={v.market_confidence} /></>}>
+      <Section title={<>📊 Market Overview <ConfidenceBadge score={v.market_confidence as number} /></>}>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {[["TAM", m.tam], ["SAM", m.sam], ["SOM", m.som], ["CAGR", m.cagr]].map(([k, v]) => (
             <div key={k as string} className="p-3 rounded-lg" style={{ background: "#161b27" }}>
@@ -61,7 +61,7 @@ export default function ReportTab({ result }: ReportTabProps) {
       </Section>
 
       {/* Competitors */}
-      <Section title={<>🔭 Competitor Landscape <ConfidenceBadge score={v.competitor_confidence} /></>}>
+      <Section title={<>🔭 Competitor Landscape <ConfidenceBadge score={v.competitor_confidence as number} /></>}>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
@@ -84,7 +84,7 @@ export default function ReportTab({ result }: ReportTabProps) {
       </Section>
 
       {/* Pain Points */}
-      <Section title={<>😤 Customer Pain Points <ConfidenceBadge score={v.pain_point_confidence} /></>}>
+      <Section title={<>😤 Customer Pain Points <ConfidenceBadge score={v.pain_point_confidence as number} /></>}>
         <div className="flex flex-col gap-2">
           {pains.map((p, i) => (
             <div key={i} className="flex gap-3 items-start p-3 rounded-lg" style={{ background: "#161b27" }}>
@@ -102,11 +102,11 @@ export default function ReportTab({ result }: ReportTabProps) {
       </Section>
 
       {/* Timing */}
-      <Section title={<>⏱️ Market Timing <ConfidenceBadge score={v.timing_confidence} /></>}>
+      <Section title={<>⏱️ Market Timing <ConfidenceBadge score={v.timing_confidence as number} /></>}>
         <div className="flex gap-4 mb-3">
           <div className="text-lg font-black" style={{ color: t.timing_verdict === "Right Time" ? "#22c55e" : "#eab308" }}>
-          {String(t.timing_verdict ?? "")}
-        </div>
+            {String(t.timing_verdict ?? "")}
+          </div>
           {t.timing_score !== undefined && <span className="text-sm" style={{ color: "#64748b" }}>Score: {String(t.timing_score)}/100</span>}
         </div>
         <div className="flex flex-col gap-2">
@@ -159,8 +159,8 @@ export default function ReportTab({ result }: ReportTabProps) {
         <Section title="📑 References & Sources">
           <div className="flex flex-wrap gap-2">
             {r.all_sources.map((s: string, i: number) => (
-              <div key={i} className="px-3 py-1.5 rounded-lg text-xs" 
-                style={{ background: "#161b27", border: "1px solid #1e2535", color: "#6366f1" }}>
+              <div key={i} className="px-3 py-1.5 rounded-lg text-xs"
+                style={{ background: "#161b27", border: "1px solid #1e2535", color: "#2563eb" }}>
                 {s}
               </div>
             ))}

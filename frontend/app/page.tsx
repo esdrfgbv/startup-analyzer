@@ -25,17 +25,17 @@ export default function Home() {
 
       {/* Glow orb */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)" }} />
+        style={{ background: "radial-gradient(circle, #2563eb 0%, transparent 70%)" }} />
 
       <div className="relative z-10 w-full max-w-xl text-center">
         <div className="mb-3 inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-widest uppercase"
-          style={{ background: "#1e2535", color: "#6366f1", border: "1px solid #6366f1" }}>
+          style={{ background: "#1e2535", color: "#2563eb", border: "1px solid #2563eb" }}>
           Multi-Agent AI System
         </div>
 
         <h1 className="text-5xl font-black mb-2 tracking-tight"
-          style={{ background: "linear-gradient(135deg, #e2e8f0, #6366f1)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-          StratosAI
+          style={{ background: "linear-gradient(135deg, #e2e8f0, #2563eb)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          AgentAstra
         </h1>
         <p className="text-lg mb-1" style={{ color: "#94a3b8" }}>The Startup War Room</p>
         <p className="text-sm mb-10" style={{ color: "#475569" }}>
@@ -71,7 +71,7 @@ export default function Home() {
             type="submit"
             disabled={loading || !idea || !segment}
             className="w-full py-4 rounded-xl font-bold text-sm tracking-wide transition-all disabled:opacity-40 cursor-pointer"
-            style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)", color: "white" }}>
+            style={{ background: "linear-gradient(135deg, #2563eb, #1d4ed8)", color: "white" }}>
             {loading ? "Launching War Room..." : "⚡ Launch War Room"}
           </button>
         </form>

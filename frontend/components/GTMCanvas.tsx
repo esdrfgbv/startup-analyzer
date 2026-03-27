@@ -7,12 +7,12 @@ interface GTMCanvasProps {
 }
 
 const BOXES = [
-  { key: "beachhead",    label: "🎯 Beachhead Market",       desc: "Who you target first" },
-  { key: "channel",      label: "📢 Distribution Channel",   desc: "How you reach them" },
-  { key: "pricing",      label: "💰 Pricing Strategy",       desc: "Model & price point" },
-  { key: "first_100",    label: "🚀 First 100 Customers",    desc: "Your acquisition playbook" },
-  { key: "month1_metric",label: "📈 Month 1 Metric",         desc: "Single KPI to track" },
-  { key: "biggest_risk", label: "⚠️ Biggest Risk",           desc: "Risk to monitor daily" },
+  { key: "beachhead", label: "🎯 Beachhead Market", desc: "Who you target first" },
+  { key: "channel", label: "📢 Distribution Channel", desc: "How you reach them" },
+  { key: "pricing", label: "💰 Pricing Strategy", desc: "Model & price point" },
+  { key: "first_100", label: "🚀 First 100 Customers", desc: "Your acquisition playbook" },
+  { key: "month1_metric", label: "📈 Month 1 Metric", desc: "Single KPI to track" },
+  { key: "biggest_risk", label: "⚠️ Biggest Risk", desc: "Risk to monitor daily" },
 ];
 
 export default function GTMCanvas({ report }: GTMCanvasProps) {
@@ -27,7 +27,7 @@ export default function GTMCanvas({ report }: GTMCanvasProps) {
         {BOXES.map((box) => (
           <div key={box.key} className="rounded-xl p-5 flex flex-col gap-2"
             style={{ background: "#0f1219", border: "1px solid #1e2535", minHeight: 140 }}>
-            <div className="text-xs font-bold" style={{ color: "#6366f1" }}>{box.label}</div>
+            <div className="text-xs font-bold" style={{ color: "#2563eb" }}>{box.label}</div>
             <div className="text-xs" style={{ color: "#475569" }}>{box.desc}</div>
             <div className="text-sm mt-auto leading-relaxed" style={{ color: "#e2e8f0" }}>
               {String(gtm[box.key] || report[box.key] || "—")}

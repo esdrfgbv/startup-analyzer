@@ -3,8 +3,8 @@ interface WarRoomTabProps {
 }
 
 const ROLE_STYLE: Record<string, { label: string; bg: string; border: string; color: string }> = {
-  bull:    { label: "🟢 BULL",    bg: "#052e16", border: "#166534", color: "#22c55e" },
-  bear:    { label: "🔴 BEAR",    bg: "#2d0a0a", border: "#991b1b", color: "#ef4444" },
+  bull: { label: "🟢 BULL", bg: "#052e16", border: "#166534", color: "#22c55e" },
+  bear: { label: "🔴 BEAR", bg: "#2d0a0a", border: "#991b1b", color: "#ef4444" },
   realist: { label: "🟡 REALIST", bg: "#1c1a05", border: "#854d0e", color: "#eab308" },
 };
 

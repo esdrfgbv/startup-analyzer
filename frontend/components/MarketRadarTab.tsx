@@ -9,7 +9,7 @@ interface Competitor {
   weakness?: string;
 }
 
-const COMPETITOR_COLORS = ["#6366f1", "#f43f5e", "#fbbf24", "#06b6d4", "#8b5cf6", "#ec4899", "#10b981", "#f97316"];
+const COMPETITOR_COLORS = ["#2563eb", "#f43f5e", "#fbbf24", "#06b6d4", "#1d4ed8", "#ec4899", "#10b981", "#f97316"];
 
 export default function MarketRadarTab({ competitors }: { competitors: unknown[] }) {
   const comps = (competitors ?? []) as Competitor[];

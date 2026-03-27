@@ -14,7 +14,7 @@ export default function SharkTank({ idea, region, segment }: { idea: string; reg
   async function start() {
     setStarted(true);
     setLoading(true);
-    const res = await fetch("http://localhost:8000/api/shark-tank/start", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/shark-tank/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idea, region, segment }),
@@ -32,7 +32,7 @@ export default function SharkTank({ idea, region, segment }: { idea: string; reg
     setMsgs(prev => [...prev, { role: "founder", content: answer }]);
     setLoading(true);
     const history = [...msgs, { role: "founder" as const, content: answer }].map(m => ({ role: m.role, content: m.content }));
-    const res = await fetch("http://localhost:8000/api/shark-tank/reply", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/shark-tank/reply`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idea, answer, turn: turn + 1, history }),
@@ -51,7 +51,7 @@ export default function SharkTank({ idea, region, segment }: { idea: string; reg
 
       {!started ? (
         <button onClick={start} className="px-6 py-3 rounded-xl font-bold text-sm"
-          style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)", color: "white" }}>
+          style={{ background: "linear-gradient(135deg, #2563eb, #1d4ed8)", color: "white" }}>
           🎤 Enter the Tank
         </button>
       ) : (
@@ -91,13 +91,13 @@ export default function SharkTank({ idea, region, segment }: { idea: string; reg
               />
               <button onClick={reply} disabled={loading}
                 className="px-5 py-3 rounded-xl font-bold text-sm disabled:opacity-40"
-                style={{ background: "#6366f1", color: "white" }}>
+                style={{ background: "#2563eb", color: "white" }}>
                 →
               </button>
             </div>
           )}
           {done && (
-            <div className="mt-4 rounded-xl p-4 text-center" style={{ background: "#0f1421", border: "1px solid #6366f1" }}>
+            <div className="mt-4 rounded-xl p-4 text-center" style={{ background: "#0f1421", border: "1px solid #2563eb" }}>
               <div style={{ color: "#818cf8" }} className="font-bold">Shark Tank session complete 🏁</div>
             </div>
           )}

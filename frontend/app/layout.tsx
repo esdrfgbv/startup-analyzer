@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "StratosAI — The Startup War Room",
+  title: "AgentAstra — The Startup War Room",
   description: "Multi-agent AI startup intelligence system",
 };
 

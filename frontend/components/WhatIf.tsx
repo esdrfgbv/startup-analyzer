@@ -22,12 +22,12 @@ function MarketResultView({ data }: { data: any }) {
       </div>
       {data.market_stage && (
         <div className="text-xs mb-2" style={{ color: "#94a3b8" }}>
-          <span className="font-semibold" style={{ color: "#6366f1" }}>Market Stage:</span> {data.market_stage}
+          <span className="font-semibold" style={{ color: "#2563eb" }}>Market Stage:</span> {data.market_stage}
         </div>
       )}
       {data.five_year_projection && (
         <div className="text-xs" style={{ color: "#94a3b8" }}>
-          <span className="font-semibold" style={{ color: "#6366f1" }}>5-Year Projection:</span> {data.five_year_projection}
+          <span className="font-semibold" style={{ color: "#2563eb" }}>5-Year Projection:</span> {data.five_year_projection}
         </div>
       )}
       {data.sources && data.sources.length > 0 && (
@@ -35,7 +35,7 @@ function MarketResultView({ data }: { data: any }) {
           <div className="text-[9px] uppercase tracking-widest text-[#64748b] mb-1">Sources</div>
           <div className="flex flex-wrap gap-2">
             {data.sources.map((s: string, i: number) => (
-              <span key={i} className="text-[10px] text-[#6366f1] hover:underline cursor-pointer">{s}</span>
+              <span key={i} className="text-[10px] text-[#2563eb] hover:underline cursor-pointer">{s}</span>
             ))}
           </div>
         </div>
@@ -52,7 +52,7 @@ function CompetitorResultView({ data }: { data: any }) {
         <div key={i} className="p-3 rounded-lg" style={{ background: "#161b27", border: "1px solid #1e2535" }}>
           <div className="flex justify-between items-start mb-2">
             <div className="font-bold text-sm" style={{ color: "#e2e8f0" }}>{c.name}</div>
-            <div className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: "#1e2535", color: "#6366f1", border: "1px solid #6366f133" }}>{c.market_share} Share</div>
+            <div className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: "#1e2535", color: "#2563eb", border: "1px solid #2563eb33" }}>{c.market_share} Share</div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-xs">
             <div style={{ color: "#94a3b8" }}><span className="text-[#64748b]">Funding:</span> {c.funding}</div>
@@ -68,7 +68,7 @@ function CompetitorResultView({ data }: { data: any }) {
           <div className="text-[9px] uppercase tracking-widest text-[#64748b] mb-1">Sources</div>
           <div className="flex flex-wrap gap-2">
             {data.sources.map((s: string, i: number) => (
-              <span key={i} className="text-[10px] text-[#6366f1] hover:underline cursor-pointer">{s}</span>
+              <span key={i} className="text-[10px] text-[#2563eb] hover:underline cursor-pointer">{s}</span>
             ))}
           </div>
         </div>
@@ -84,7 +84,7 @@ function PainPointResultView({ data }: { data: any }) {
       {pains.map((p: any, i: number) => (
         <div key={i} className="p-3 rounded-lg" style={{ background: "#161b27", border: "1px solid #1e2535" }}>
           <div className="flex gap-2 items-center mb-2">
-            <span className="text-[10px] font-black px-1.5 py-0.5 rounded" 
+            <span className="text-[10px] font-black px-1.5 py-0.5 rounded"
               style={{ background: p.severity === "Critical" ? "#ef4444" : "#eab308", color: "#000" }}>
               {p.severity.toUpperCase()}
             </span>
@@ -103,7 +103,7 @@ function PainPointResultView({ data }: { data: any }) {
           <div className="text-[9px] uppercase tracking-widest text-[#64748b] mb-1">Sources</div>
           <div className="flex flex-wrap gap-2">
             {data.sources.map((s: string, i: number) => (
-              <span key={i} className="text-[10px] text-[#6366f1] hover:underline cursor-pointer">{s}</span>
+              <span key={i} className="text-[10px] text-[#2563eb] hover:underline cursor-pointer">{s}</span>
             ))}
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function WhatIf({ idea, region, segment }: { idea: string; region
   async function runAgent(agent: string) {
     setLoading(agent);
     try {
-      const res = await fetch("http://localhost:8000/api/whatif", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/whatif`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idea, region: sel, segment: seg, pricing, agent }),
@@ -177,7 +177,7 @@ export default function WhatIf({ idea, region, segment }: { idea: string; region
 
       {Object.entries(results).map(([agent, data]) => (
         <div key={agent} className="mb-4 rounded-xl p-4" style={{ background: "#0f1219", border: "1px solid #1e2535" }}>
-          <div className="text-xs font-bold mb-3" style={{ color: "#6366f1" }}>{agent.toUpperCase()} RESULT</div>
+          <div className="text-xs font-bold mb-3" style={{ color: "#2563eb" }}>{agent.toUpperCase()} RESULT</div>
           {agent === "market" && <MarketResultView data={data} />}
           {agent === "competitor" && <CompetitorResultView data={data} />}
           {agent === "pain_point" && <PainPointResultView data={data} />}
