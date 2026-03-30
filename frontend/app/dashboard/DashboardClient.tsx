@@ -23,21 +23,34 @@ export default function DashboardClient() {
   const [result, setResult] = useState<Record<string, unknown> | null>(null);
   const [progress, setProgress] = useState(0);
   const [confidence, setConfidence] = useState<number | null>(null);
+  const [sseError, setSseError] = useState<string | null>(null);
   const esRef = useRef<EventSource | null>(null);
 
   useEffect(() => {
     if (!idea) return;
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://startup-analyzer-g3ei.onrender.com";
     const url = `${baseUrl}/api/stream?idea=${encodeURIComponent(idea)}&region=${encodeURIComponent(region)}&segment=${encodeURIComponent(segment)}`;
+    console.log("[AgentAstra] SSE URL:", url);
     const es = new EventSource(url);
     esRef.current = es;
 
     const agentOrder = ["orchestrator", "market_sizer", "competitor_scout", "pain_point", "timing", "red_team", "validator", "synthesizer", "debate"];
     let doneCount = 0;
 
+    es.onopen = () => {
+      console.log("[AgentAstra] SSE connected ✅");
+      setSseError(null);
+    };
+
     es.onmessage = (e) => {
-      const parsed = JSON.parse(e.data);
-      const { agent, status, data } = parsed;
+      let parsed: Record<string, unknown>;
+      try {
+        parsed = JSON.parse(e.data);
+      } catch (err) {
+        console.error("[AgentAstra] Invalid SSE data:", e.data, err);
+        return;
+      }
+      const { agent, status, data } = parsed as { agent: string; status: string; data?: unknown };
 
       setEvents(prev => {
         const idx = prev.findIndex(ev => ev.agent === agent);
@@ -69,7 +82,9 @@ export default function DashboardClient() {
       }
     };
 
-    es.onerror = () => {
+    es.onerror = (err) => {
+      console.error("[AgentAstra] SSE error ❌", err);
+      setSseError(`SSE connection failed. Backend URL: ${baseUrl}`);
       setEvents(prev => [...prev, { agent: "connection", status: "error — backend may be down", ts: Date.now() }]);
       es.close();
     };
@@ -123,7 +138,15 @@ export default function DashboardClient() {
 
         {/* Tab content */}
         <div className="flex-1 overflow-y-auto p-6">
-          {!result && progress < 100 && (
+          {sseError && (
+            <div className="flex flex-col items-center justify-center h-full gap-3">
+              <div className="text-2xl">⚠️</div>
+              <p className="font-semibold" style={{ color: "#ef4444" }}>SSE connection failed</p>
+              <p className="text-xs text-center max-w-sm" style={{ color: "#64748b" }}>{sseError}</p>
+              <p className="text-xs" style={{ color: "#475569" }}>Check F12 → Network → filter "stream" for details.</p>
+            </div>
+          )}
+          {!result && !sseError && progress < 100 && (
             <div className="flex flex-col items-center justify-center h-full gap-4">
               <div className="w-12 h-12 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: "#2563eb", borderTopColor: "transparent" }} />
               <p style={{ color: "#64748b" }}>Agents are working… watch the feed</p>
