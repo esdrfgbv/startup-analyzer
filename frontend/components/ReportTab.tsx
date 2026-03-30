@@ -29,10 +29,10 @@ export default function ReportTab({ result }: ReportTabProps) {
   const rt = (red_team ?? {}) as Record<string, unknown>;
   const r = (report ?? {}) as Record<string, unknown>;
   const v = (validation ?? {}) as Record<string, number>;
-  const comps = ((competitors as Record<string, unknown>)?.competitors ?? []) as Record<string, string>[];
-  const pains = ((pain_points as Record<string, unknown>)?.pain_points ?? []) as Record<string, string>[];
-  const kills = (rt.kill_reasons ?? []) as Record<string, string>[];
-  const signals = (t.signals ?? []) as Record<string, string>[];
+  const comps = ((competitors as Record<string, any>)?.competitors ?? []) as any[];
+  const pains = ((pain_points as Record<string, any>)?.pain_points ?? []) as any[];
+  const kills = (rt.kill_reasons ?? []) as any[];
+  const signals = (t.signals ?? []) as any[];
   const strategy = (r.strategy ?? []) as string[];
 
   const verdictColor = { GO: "#22c55e", "CONDITIONAL GO": "#eab308", "NO-GO": "#ef4444" }[r.verdict as string] ?? "#2563eb";
@@ -57,7 +57,7 @@ export default function ReportTab({ result }: ReportTabProps) {
             </div>
           ))}
         </div>
-        {m.five_year_projection && <p className="text-xs mt-3" style={{ color: "#64748b" }}>5-year projection: {m.five_year_projection}</p>}
+        {m.five_year_projection && <p className="text-xs mt-3" style={{ color: "#64748b" }}>5-year projection: {String(m.five_year_projection)}</p>}
       </Section>
 
       {/* Competitors */}
@@ -84,17 +84,17 @@ export default function ReportTab({ result }: ReportTabProps) {
       </Section>
 
       {/* Pain Points */}
-      <Section title={<>😤 Customer Pain Points <ConfidenceBadge score={v.pain_point_confidence as number} /></>}>
+      <Section title={<>Customer Pain Points <ConfidenceBadge score={v.pain_point_confidence as number} /></>}>
         <div className="flex flex-col gap-2">
           {pains.map((p, i) => (
             <div key={i} className="flex gap-3 items-start p-3 rounded-lg" style={{ background: "#161b27" }}>
               <span className="text-xs px-2 py-1 rounded font-bold flex-shrink-0"
-                style={{ background: p.severity === "Critical" ? "#2d0a0a" : "#1c1a05", color: p.severity === "Critical" ? "#ef4444" : "#eab308" }}>
-                {p.severity}
+                style={{ background: String(p.severity) === "Critical" ? "#2d0a0a" : "#1c1a05", color: String(p.severity) === "Critical" ? "#ef4444" : "#eab308" }}>
+                {String(p.severity || "")}
               </span>
               <div>
-                <div className="text-sm font-semibold" style={{ color: "#e2e8f0" }}>{p.problem}</div>
-                <div className="text-xs mt-1" style={{ color: "#64748b" }}>{p.opportunity}</div>
+                <div className="text-sm font-semibold" style={{ color: "#e2e8f0" }}>{String(p.problem || "")}</div>
+                <div className="text-xs mt-1" style={{ color: "#64748b" }}>{String(p.opportunity || "")}</div>
               </div>
             </div>
           ))}
