@@ -27,7 +27,7 @@ export default function DashboardClient() {
 
   useEffect(() => {
     if (!idea) return;
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://startup-analyzer-g3ei.onrender.com";
     const url = `${baseUrl}/api/stream?idea=${encodeURIComponent(idea)}&region=${encodeURIComponent(region)}&segment=${encodeURIComponent(segment)}`;
     const es = new EventSource(url);
     esRef.current = es;
